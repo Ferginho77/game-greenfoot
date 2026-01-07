@@ -3,6 +3,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Player extends Actor
 {
     private int speed = 4;
+    int nyawa = 5;
     private int vSpeed = 0;
     private int gravity = 1;
     private int jumpStrength = -15;
@@ -22,7 +23,7 @@ public class Player extends Actor
             spawnY = getY();
             spawnSaved = true;
         }
-
+        getWorld().showText("Nyawa :" + nyawa, 50, 50);
         handleMovement();
         applyGravity();
         checkGround();
@@ -62,14 +63,27 @@ public class Player extends Actor
     }
 
     public boolean isOnFalseBlock(){
-        return getOneObjectAtOffset(0, getImage().getHeight()/2 + 5, FalseBlock.class) != null;
-    }
+    Actor a = getOneObjectAtOffset(
+        0,
+        getImage().getHeight()/2 + 5,
+        FalseBlock.class
+    );
 
-    // RESET KETIKA MENYENTUH GROUND BERBAHAYA
+    if(a != null){
+        FalseBlock fb = (FalseBlock) a;
+        return fb.isActive(); // hanya true jika block masih aman
+    }
+    return false;
+}
+
+
+    
+
+    // RESET KETIKA MENYENTUH GROUND
     public void checkGround(){
         if(isTouching(Ground.class)){
             setLocation(spawnX, spawnY);
-            
+            nyawa = nyawa - 1;
             vSpeed = 0;
         }
     }
