@@ -1,20 +1,35 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-/**
- * Write a description of class FalseBlock here.
- * 
- * @author (your name) 
- * @version (a version number or a date)
- */
 public class FalseBlock extends Assets
 {
+     private boolean active = true;
+
     public FalseBlock(){
-    GreenfootImage img = new GreenfootImage("falseblock.png");
-        img.scale(65, 33);
+        setSafeImage();
+    }
+
+    public void setActive(boolean value){
+        active = value;
+
+        if(active){
+            setSafeImage();
+        } else {
+            setDangerImage();
+        }
+    }
+
+    public boolean isActive(){
+        return active;
+    }
+
+    private void setSafeImage(){
+        GreenfootImage img = new GreenfootImage("mainblock.png"); // block normal
+        img.scale(60, 20);
         setImage(img);
     }
-    public void act()
-    {
-        // Add your action code here.
-    }
-}
+
+    private void setDangerImage(){
+        GreenfootImage img = new GreenfootImage("falseblock.png"); // block lava
+        img.scale(60, 20);
+        setImage(img);
+    }}
