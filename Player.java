@@ -1,90 +1,75 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-public class Player extends Actor
-{
+public class Player extends Actor {
     private int speed = 4;
-    int nyawa = 5;
     private int vSpeed = 0;
     private int gravity = 1;
     private int jumpStrength = -15;
+    private int nyawa = 2;
     private int spawnX, spawnY;
-    private boolean spawnSaved = false;
+    private GreenfootSound fallSound = new GreenfootSound("dry-fart.mp3");
+    private GreenfootSound gameoverSound = new GreenfootSound("fail.mp3");
 
-    public Player(){
+    public Player() {
         GreenfootImage img = new GreenfootImage("char.png");
-        img.scale(50, 70);
+        img.scale(40, 55);
         setImage(img);
     }
 
-    public void act(){
-        // Simpan posisi spawn hanya sekali
-        if(!spawnSaved && getWorld() != null){
-            spawnX = getX();
-            spawnY = getY();
-            spawnSaved = true;
-        }
-        getWorld().showText("Nyawa :" + nyawa, 50, 50);
+    public void act() {
+        if (spawnX == 0) { spawnX = getX(); spawnY = getY(); }
+        
         handleMovement();
         applyGravity();
-        checkGround();
+        checkLava();
+        getWorld().showText("Nyawa: " + nyawa, 50, 30);
     }
 
-    public void handleMovement(){
-        if(Greenfoot.isKeyDown("d")) setLocation(getX()+speed, getY());
-        if(Greenfoot.isKeyDown("a")) setLocation(getX()-speed, getY());
-
-        if(Greenfoot.isKeyDown("space") && (isOnGround() || isOnBlock() || isOnFalseBlock())){
-            jump();
+    private void handleMovement() {
+        if (Greenfoot.isKeyDown("d")) setLocation(getX() + speed, getY());
+        if (Greenfoot.isKeyDown("a")) setLocation(getX() - speed, getY());
+        if (Greenfoot.isKeyDown("space") && isOnSolidGround()) {
+            vSpeed = jumpStrength;
+            fall();
         }
     }
 
-    public void jump(){
-        vSpeed = jumpStrength;
-        fall();
-    }
-
-    public void fall(){ vSpeed += gravity; setLocation(getX(), getY() + vSpeed); }
-
-    public void applyGravity(){
-        if(isOnGround() || isOnBlock() || isOnFalseBlock()){
+    private void applyGravity() {
+        if (isOnSolidGround()) {
             vSpeed = 0;
         } else {
-            vSpeed += gravity;
-            setLocation(getX(), getY() + vSpeed);
+            fall();
         }
     }
 
-    public boolean isOnGround(){
-        return getOneObjectAtOffset(0, getImage().getHeight()/2 + 5, Block.class) != null;
+    private void fall() {
+        vSpeed += gravity;
+        setLocation(getX(), getY() + vSpeed);
     }
 
-    public boolean isOnBlock(){
-        return getOneObjectAtOffset(0, getImage().getHeight()/2 + 5, litblock.class) != null;
-    }
-
-    public boolean isOnFalseBlock(){
-    Actor a = getOneObjectAtOffset(
-        0,
-        getImage().getHeight()/2 + 5,
-        FalseBlock.class
-    );
-
-    if(a != null){
-        FalseBlock fb = (FalseBlock) a;
-        return fb.isActive(); // hanya true jika block masih aman
-    }
-    return false;
-}
-
-
+    private boolean isOnSolidGround() {
+    // Cari objek FalseBlock tepat di bawah kaki
+    FalseBlock fb = (FalseBlock) getOneObjectAtOffset(0, getImage().getHeight()/2 + 2, FalseBlock.class);
     
+    if (fb != null && fb.isActive()) {
+        return true;
+    }
 
-    // RESET KETIKA MENYENTUH GROUND
-    public void checkGround(){
-        if(isTouching(Ground.class)){
+    // Cek juga blok start yang permanen
+    Actor b = getOneObjectAtOffset(0, getImage().getHeight()/2 + 2, Block.class);
+    return b != null;
+}
+    private void checkLava() {
+        if (isTouching(Ground.class) || getY() > getWorld().getHeight() - 10) {
+            nyawa--;
+            fallSound.play();
             setLocation(spawnX, spawnY);
-            nyawa = nyawa - 1;
             vSpeed = 0;
+            if (nyawa <= 0) {
+                getWorld().showText("GAME OVER", getWorld().getWidth()/2, getWorld().getHeight()/2);
+                gameoverSound.play();
+                Greenfoot.stop();
+            }
         }
     }
 }
