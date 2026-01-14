@@ -1,35 +1,42 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.*;
 
-public class FalseBlock extends Assets
-{
-     private boolean active = true;
+public class FalseBlock extends Actor {
+    private boolean active = true;
+    private boolean isTrap = false;
+    private int vanishTimer = 45; 
 
-    public FalseBlock(){
+    public FalseBlock() {
         setSafeImage();
     }
 
-    public void setActive(boolean value){
-        active = value;
-
-        if(active){
-            setSafeImage();
-        } else {
-            setDangerImage();
+    public void act() {
+        if (isTrap) {
+            vanishTimer--;
+            if (vanishTimer <= 0) {
+                active = false; 
+                setDangerImage();
+                if (vanishTimer <= -15) { 
+                    getWorld().removeObject(this);
+                }
+            }
         }
     }
 
-    public boolean isActive(){
-        return active;
+    public void setAsTrap() {
+        this.isTrap = true;
     }
 
-    private void setSafeImage(){
-        GreenfootImage img = new GreenfootImage("mainblock.png"); // block normal
-        img.scale(60, 20);
+    public boolean isActive() { return active; }
+
+    private void setSafeImage() {
+        GreenfootImage img = new GreenfootImage("mainblock.png"); 
+        img.scale(70, 15); // Tinggi tipis
         setImage(img);
     }
 
-    private void setDangerImage(){
-        GreenfootImage img = new GreenfootImage("falseblock.png"); // block lava
-        img.scale(60, 20);
+    private void setDangerImage() {
+        GreenfootImage img = new GreenfootImage("falseblock.png"); 
+        img.scale(70, 15);
         setImage(img);
-    }}
+    }
+}
