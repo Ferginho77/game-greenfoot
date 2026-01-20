@@ -2,22 +2,22 @@
 comment0.target=Player
 comment1.params=
 comment1.target=Player()
-comment10.params=
-comment10.target=void\ checkGround()
 comment2.params=
 comment2.target=void\ act()
 comment3.params=
-comment3.target=void\ handleMovement()
+comment3.target=void\ moveHorizontal()
+comment3.text=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\ MOVEMENT\ \=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=
 comment4.params=
-comment4.target=void\ jump()
+comment4.target=void\ applyGravity()
 comment5.params=
-comment5.target=void\ fall()
+comment5.target=boolean\ onGround()
 comment6.params=
-comment6.target=void\ applyGravity()
+comment6.target=void\ checkCoin()
+comment6.text=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\ GAME\ LOGIC\ \=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=
 comment7.params=
-comment7.target=boolean\ isOnGround()
+comment7.target=void\ checkFinish()
 comment8.params=
-comment8.target=boolean\ isOnBlock()
+comment8.target=void\ checkLava()
 comment9.params=
-comment9.target=boolean\ isOnFalseBlock()
-numComments=11
+comment9.target=void\ checkFallOut()
+numComments=10

@@ -1,7 +1,7 @@
 #BlueJ class context
-comment0.target=MyWorld
+comment0.target=WorldLevel2
 comment1.params=
-comment1.target=MyWorld()
+comment1.target=WorldLevel2()
 comment2.params=
 comment2.target=void\ updateCoinUI()
 comment2.text=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\ UI\ \=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=\=

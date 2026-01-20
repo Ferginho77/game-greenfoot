@@ -1,11 +1,12 @@
 import greenfoot.*;
 
-public class MyWorld extends World {
+public class WorldLevel2 extends World {
 
     private final int REQUIRED_COIN = 3;
 
-    public MyWorld() {
+    public WorldLevel2() {
         super(960, 540, 1);
+        setBackground(new GreenfootImage("level2.jpg"));
         prepare();
         updateCoinUI();
     }
@@ -21,9 +22,10 @@ public class MyWorld extends World {
 
     public void finishReached() {
         if (getObjects(Coin.class).isEmpty()) {
-            Greenfoot.setWorld(new WorldLevel2());
+            showText("SELAMAT! ANDA MENANG!", getWidth()/2, getHeight()/2);
+            Greenfoot.stop();
         } else {
-            showText("KOIN BELUM HABIS!", getWidth()/2, getHeight()/2);
+            showText("AMBIL SEMUA KOIN!", getWidth()/2, getHeight()/2);
             Greenfoot.stop();
         }
     }
@@ -32,21 +34,29 @@ public class MyWorld extends World {
 
     private void prepare() {
 
+        // ===== PLAYER =====
         addObject(new Player(), 80, 430);
 
+        // ===== PLATFORM BAWAH =====
         addObject(new Block(), 80, 500);
-        addObject(new Block(), 420, 500);
+        addObject(new Block(), 260, 470);
+        addObject(new Block(), 440, 500);
 
+        // ===== PLATFORM MENENGAH =====
         addObject(new Block(), 150, 360);
-        addObject(new Block(), 330, 320);
-        addObject(new Block(), 520, 350);
+        addObject(new Block(), 350, 320);
+        addObject(new Block(), 560, 350);
 
-        addObject(new FalseBlock(), 240, 270);
-        addObject(new FalseBlock(), 410, 240);
+        // ===== FALSE BLOCK =====
+        addObject(new FalseBlock(), 240, 260);
+        addObject(new FalseBlock(), 420, 230);
+        addObject(new FalseBlock(), 600, 260);
 
-        addObject(new Block(), 600, 200);
-        addObject(new Block(), 780, 150);
+        // ===== PLATFORM ATAS =====
+        addObject(new Block(), 700, 200);
+        addObject(new Block(), 840, 150);
 
+        // ===== FINISH =====
         Block finishBase = new Block();
         addObject(finishBase, 790, 500);
 
@@ -59,10 +69,12 @@ public class MyWorld extends World {
             - (finish.getImage().getHeight() / 2)
         );
 
+        // ===== COIN =====
         addObject(new Coin(), 250, 200);
         addObject(new Coin(), 420, 410);
-        addObject(new Coin(), 600, 110);
+        addObject(new Coin(), 790, 80);
 
+        // ===== LAVA =====
         addObject(new Ground(), 550, 600);
     }
 }
